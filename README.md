@@ -1,5 +1,66 @@
 # Metadata Search Extension for Stable Diffusion WebUI
 
+This project is an extension for Stable Diffusion WebUI that allows you to search and manage metadata in PNG files. With this extension, you can search metadata in PNG files within a specified folder and extract necessary information easily.
+
+## Features
+
+- Search metadata in PNG files within a specified folder
+- Flexible search functionality using keywords or folder names
+- Efficient display of search results with pagination
+- Register and delete frequently used words
+- Support for keywords containing spaces or enclosed in double quotes
+
+## Installation
+
+1. **Install the extension**
+   - Open the "Extensions" tab in Stable Diffusion WebUI.
+   - Enter the following URL in the "Install from URL" input field:
+     - `https://github.com/koizoom1/sdwebui-metadata-search.git`
+   - Click the "Install" button.
+
+2. **Restart WebUI**
+   - After the extension is installed, restart the WebUI.
+
+## Usage
+
+1. **Specify a folder**
+   - In the main screen, specify the folder to be searched.
+   - Use the "Use Last Folder" button to reuse the previously selected folder.
+
+2. **Enter keywords**
+   - Enter the keywords to search in the keyword input field.
+   - Use the dropdown for frequently used words to easily add registered words.
+
+3. **Search**
+   - Click the "Search" button to search for metadata in PNG files within the specified folder.
+   - The search results will be displayed in an HTML table format, showing image previews and metadata.
+
+4. **Navigate pages**
+   - If the results span multiple pages, use the "Previous Page" and "Next Page" buttons to navigate.
+
+5. **Manage frequently used words**
+   - Use the "Add Word" tab to register new words, and the "Delete Word" tab to remove unnecessary words.
+
+## Contributing
+
+1. **Fork this repository**
+   - Fork this repository to your GitHub account.
+
+2. **Make changes**
+   - Clone the forked repository to your local machine and make changes.
+
+3. **Submit a pull request**
+   - Push your changes to the repository and create a pull request.
+
+## Notes
+
+- The PNG files must have appropriate metadata embedded for this extension to work.
+- Python version 3.8 or higher is required.
+
+## License
+
+This project is released under the MIT License. For more details, see the `LICENSE` file.
+
 このプロジェクトは、Stable Diffusion WebUI向けの拡張機能で、PNGファイルのメタデータを検索および管理するためのツールです。この拡張機能を使用することで、指定したフォルダ内のPNGファイルからメタデータを検索し、簡単に必要な情報を抽出できます。
 
 ## 機能
@@ -12,19 +73,14 @@
 
 ## インストール方法
 
-1. **拡張機能のクローン**
-   - ターミナルまたはコマンドプロンプトで以下を実行してください:
-     - `git clone https://github.com/your-repo/metadata-search-extension.git`
+1. **拡張機能のインストール**
+   - Stable Diffusion WebUIの「Extensions」タブを開きます。
+   - 「Install from URL」の入力欄に以下のURLを入力します:
+     - `https://github.com/koizoom1/sdwebui-metadata-search.git`
+   - 「Install」ボタンを押します。
 
-2. **拡張機能フォルダに配置**
-   - クローンしたフォルダをStable Diffusion WebUIの`extensions`フォルダ内に配置します。
-
-3. **依存パッケージのインストール**
-   - 必要なPythonパッケージを以下のコマンドでインストールします:
-     - `pip install -r requirements.txt`
-
-4. **WebUIの再起動**
-   - WebUIを再起動して、拡張機能が有効化されたことを確認します。
+2. **WebUIの再起動**
+   - 拡張機能のインストールが完了したら、WebUIを再起動してください。
 
 ## 使用方法
 
