@@ -3,6 +3,7 @@ import json
 import pandas as pd
 import gradio as gr
 from PIL import Image
+from PIL.ExifTags import TAGS
 from modules import script_callbacks
 import html
 import re
@@ -33,20 +34,41 @@ def add_common_word(word, description):
         for cw in settings["common_words"]
     ]
 
-# メタデータの抽出
 def extract_metadata_from_png(folder_path):
     metadata_list = []
     for root, _, files in os.walk(folder_path):
         for file in files:
-            if file.lower().endswith(".png"):
+            if file.lower().endswith((".png", ".jpg", ".jpeg", ".webp")):
                 file_path = os.path.join(root, file)
                 try:
                     with Image.open(file_path) as img:
                         metadata = img.info
+                        # Extract Exif data for JPEG and WEBP
+                        if img.format in ["JPEG", "WEBP"]:
+                            exif_data = img._getexif()
+                            if exif_data:
+                                exif_metadata = {}
+                                for tag, value in exif_data.items():
+                                    decoded_tag = TAGS.get(tag, tag)
+                                    # Exclude the 'exif' tag
+                                    if decoded_tag == "exif":
+                                        continue
+                                    # Handle UserComment field
+                                    if decoded_tag == "UserComment" and isinstance(value, bytes):
+                                        try:
+                                            # Remove UNICODE header and null bytes
+                                            if value.startswith(b'UNICODE\x00\x00'):
+                                                value = value[9:]  # Remove 'UNICODE\x00\x00'
+                                            value = value.replace(b'\x00', b'')  # Remove null bytes
+                                            value = value.decode('utf-8')  # Decode bytes to string
+                                        except Exception as e:
+                                            print(f"Error decoding UserComment: {e}")
+                                    exif_metadata[decoded_tag] = value
+                                metadata.update(exif_metadata)
                         metadata_list.append({
                             "ImagePath": file_path.replace("\\", "/"),
                             "FolderPath": os.path.dirname(file_path).replace("\\", "/"),
-                            "Metadata": "\n".join([f"{k}: {v}" for k, v in metadata.items()]),
+                            "Metadata": "\n".join([f"{k}: {v}" for k, v in metadata.items() if k != "exif"]),
                         })
                 except Exception as e:
                     print(f"Error reading {file_path}: {e}")
@@ -322,6 +344,6 @@ def create_ui():
 
 # UIタブに登録
 def on_ui_tabs():
-    return [(create_ui(), "PNG Metadata Search", "metadata_search_tab")]
+    return [(create_ui(), "Image Metadata Search", "metadata_search_tab")]
 
 script_callbacks.on_ui_tabs(on_ui_tabs)
